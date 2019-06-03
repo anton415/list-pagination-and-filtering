@@ -5,11 +5,10 @@ Developer: Anton Serdyuchenko anton415@gmail.com
 ******************************************/
 
 // Variable to store the student list item elements in the student list.
-var studentListItem;
+var studentListItem = document.querySelectorAll("li");
 
 // Variable to store the number of items to show on each "page".
 var numberOfItemsOnPage = 10;
-
 
 /*** 
    Create the `showPage` function to hide all of the items in the 
