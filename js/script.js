@@ -10,23 +10,17 @@ var studentListItem = document.querySelectorAll("li");
 // Variable to store the number of items to show on each "page".
 var numberOfItemsOnPage = 10;
 
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
+// Function show page with some number of students.
+function showPage(list, page) {
+	let startIndex = (page * numberOfItemsOnPage) - numberOfItemsOnPage;
+	let endIndex = page * numberOfItemsOnPage;
 
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
-
-
-
+	for(let i = 0; i < list.length; i++) {
+		if(i >= startIndex && i < endIndex) {
+			list[i].style.display = '';
+		}
+	}
+}
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
