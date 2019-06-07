@@ -5,20 +5,25 @@ Developer: Anton Serdyuchenko anton415@gmail.com
 ******************************************/
 
 // Variable to store the student list item elements in the student list.
-var studentListItem = document.querySelectorAll("li");
+const studentListItem = document.querySelectorAll("li");
 
 // Variable to store the number of items to show on each "page".
-var numberOfItemsOnPage = 10;
+const NUMBER_OF_ITEMS_ON_PAGE = 10;
+
+// Hide all students.
+function hideAllStudens(listOfAllStudents) {
+	for(let i=0; i < listOfAllStudents.length; i++){
+		listOfAllStudents[i].style.display = "none";
+	}
+}
 
 // Function show page with some number of students.
 function showPage(list, page) {
-	for(let i=0; i<studentListItem.length; i++){
-		studentListItem[i].style.display = "none";
-	}
-	
-	let startIndex = (page * numberOfItemsOnPage) - numberOfItemsOnPage;
-	let endIndex = page * numberOfItemsOnPage;
-	
+	hideAllStudens(list);
+
+	let startIndex = (page * NUMBER_OF_ITEMS_ON_PAGE) - NUMBER_OF_ITEMS_ON_PAGE;
+	let endIndex = page * NUMBER_OF_ITEMS_ON_PAGE;
+
 	for(let i = 0; i < list.length; i++) {
 		if(i >= startIndex && i < endIndex) {
 			list[i].style.display = '';
@@ -28,8 +33,6 @@ function showPage(list, page) {
 
 // Create the pagination buttons.
 function appendPageLinks(list) {
-
-	
 	let listOfA = [];
 	/*
 		A container DIV element with a class name of "pagination", and
@@ -47,7 +50,7 @@ function appendPageLinks(list) {
 	/*
 		Each LI element should contain an A element.
 	*/
-	for(let i = 0; i < (list.length / 10); i++) {
+	for(let i = 0; i < (list.length / NUMBER_OF_ITEMS_ON_PAGE); i++) {
 		let li = document.createElement("li");
 		let a = document.createElement("a");
 		a.href = "#" + (i+1);
@@ -55,7 +58,7 @@ function appendPageLinks(list) {
 		li.appendChild(a);
 		ul.appendChild(li);
 		listOfA.push(a);
-		
+
 		/*
 			Active class name to the first pagination.
 		*/
@@ -64,11 +67,11 @@ function appendPageLinks(list) {
 			for(let i=0; i<studentListItem.length; i++){
 				studentListItem[i].style.display = "none";
 			}
-			for(let i=0; i<studentListItem.length && i<10; i++){
+			for(let i=0; i<studentListItem.length && i<NUMBER_OF_ITEMS_ON_PAGE; i++){
 				studentListItem[i].style.display = "";
 			}
 		}
-		
+
 		/*
 			"click" event listener to each A element.
 		*/
@@ -81,16 +84,8 @@ function appendPageLinks(list) {
 			e.target.className = "active";
 			// The function to show page should be called.
 			showPage(studentListItem, e.target.innerHTML);
-			
 		});
-		
 	}
-	
 }
 
-
-
 appendPageLinks(studentListItem);
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
