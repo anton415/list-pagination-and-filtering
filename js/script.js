@@ -17,23 +17,39 @@ function hideAllStudens(listOfAllStudents) {
 	}
 }
 
-// Function show page with some number of students.
-function showPage(list, page) {
-	hideAllStudens(list);
+// Get start index.
+function getStartIndex(pageNumber) {
+	return (pageNumber * NUMBER_OF_ITEMS_ON_PAGE) - NUMBER_OF_ITEMS_ON_PAGE;
+}
 
-	let startIndex = (page * NUMBER_OF_ITEMS_ON_PAGE) - NUMBER_OF_ITEMS_ON_PAGE;
-	let endIndex = page * NUMBER_OF_ITEMS_ON_PAGE;
+// Get end index.
+function getEndIndex(pageNumber) {
+	return pageNumber * NUMBER_OF_ITEMS_ON_PAGE;
+}
 
-	for(let i = 0; i < list.length; i++) {
+// Display students.
+function displayStudents(listOfStudents, startIndex, endIndex) {
+	for(let i = 0; i < listOfStudents.length; i++) {
 		if(i >= startIndex && i < endIndex) {
-			list[i].style.display = '';
+			listOfStudents[i].style.display = '';
 		}
 	}
 }
 
+// Function show page with some number of students.
+function showPage(list, page) {
+	hideAllStudens(list);
+
+	const startIndex = getStartIndex(page);
+	const endIndex = getEndIndex(page);
+
+	displayStudents(list, startIndex, endIndex);
+}
+
 // Create the pagination buttons.
 function appendPageLinks(list) {
-	let listOfA = [];
+	const listOfA = [];
+
 	/*
 		A container DIV element with a class name of "pagination", and
 		appended to the div element with the class name of page.
