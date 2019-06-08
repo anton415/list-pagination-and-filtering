@@ -49,65 +49,78 @@ function showPage(list, page) {
 // Create element and append to parent.
 function createAndAppendElement(newElement, parent) {
 	const element = document.createElement(newElement);
-	document.querySelector('.page').appendChild(element);
+	parent.appendChild(element);
 	return element;
 }
+
+// Create list of pagination buttons with links (a elements).
+function fillListOfPagginationButtons(linkElement, listOfPaginationButtons, index) {
+	linkElement.href = '#' + (index+1);
+	linkElement.innerHTML = (index+1);
+	listOfPaginationButtons.push(linkElement);
+}
+
+// Active class name to pagination element.
+function activeClassNameOfPaginationElement(linkElement, studentListItem) {
+	linkElement.className='active';
+	hideAllStudens(studentListItem);
+	for(let i=0; i < studentListItem.length && i < NUMBER_OF_ITEMS_ON_PAGE; i++) {
+		studentListItem[i].style.display = "";
+	}
+}
+
+// Add event listener to link element.
+function addEventListenerToLinkElement(linkElement, listOfPaginationButtons) {
+	linkElement.addEventListener("click", (e) => {
+		for(let j = 0; j < listOfPaginationButtons.length; j++) {
+			// Remove active class from all links.
+			listOfPaginationButtons[j].className = "";
+		}
+		// Add active class to link that was just clicked.
+		e.target.className = "active";
+		// The function to show page should be called.
+		showPage(studentListItem, e.target.innerHTML);
+	});
+}
+
+
 
 // Create the pagination buttons.
 function appendPageLinks(list) {
 	const listOfPaginationButtons = [];
+	const pageElement = document.querySelector('.page');
 
 	/*
 		A container DIV element with a class name of "pagination", and
 		appended to the div element with the class name of page.
 	*/
-	const div = createAndAppendElement('div', '.page');
+	const div = createAndAppendElement('div', pageElement);
 	div.className = 'pagination';
 
 	/*
 		A nested UL element containing one LI element for every ten
 		students in the list.
 	*/
-	const ul = document.createElement('ul');
-	div.appendChild(ul);
+	const ul = createAndAppendElement('ul', div);
+
 	/*
 		Each LI element should contain an A element.
 	*/
 	for(let i = 0; i < (list.length / NUMBER_OF_ITEMS_ON_PAGE); i++) {
-		let li = document.createElement('li');
-		let a = document.createElement('a');
-		a.href = '#' + (i+1);
-		a.innerHTML = (i+1);
-		li.appendChild(a);
-		ul.appendChild(li);
-		listOfPaginationButtons.push(a);
+		const li = createAndAppendElement('li', ul);
+		const a = createAndAppendElement('a', li);
+
+		fillListOfPagginationButtons(a, listOfPaginationButtons, i);
 
 		/*
 			Active class name to the first pagination.
 		*/
-		if(i==0) {
-			a.className='active';
-			for(let i=0; i<studentListItem.length; i++){
-				studentListItem[i].style.display = 'none';
-			}
-			for(let i=0; i<studentListItem.length && i<NUMBER_OF_ITEMS_ON_PAGE; i++){
-				studentListItem[i].style.display = "";
-			}
-		}
+		if(i==0) activeClassNameOfPaginationElement(a, list);
 
 		/*
-			"click" event listener to each A element.
+			Add "click" event listener to each A element.
 		*/
-		a.addEventListener("click", (e) => {
-			for(let j = 0; j < listOfPaginationButtons.length; j++) {
-				// Remove active class from all links.
-				listOfPaginationButtons[j].className = "";
-			}
-			// Add active class to link that was just clicked.
-			e.target.className = "active";
-			// The function to show page should be called.
-			showPage(studentListItem, e.target.innerHTML);
-		});
+		addEventListenerToLinkElement(a, listOfPaginationButtons)
 	}
 }
 
